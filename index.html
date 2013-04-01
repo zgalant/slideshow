@@ -48,13 +48,7 @@
 
          var photos = response.data;
 
-         for (var i=0; i < photos.length && i < 25; i++) {
-           var photo = photos[i];
-
-           markup += '<img src="' + photo.source + '"> ';
-         }
-
-         function changePhoto(){
+         function changePhoto(photos){
           var r = Math.random();
           var low = 0;
           var high = photos.length;
@@ -63,10 +57,14 @@
           var photo = photos[rand];
           var markup = '<img src="' + photo.source + '"> ';
           document.getElementById('user-photos').innerHTML = markup;
-          setTimeout(changePhoto, 2000);
+          setTimeout(function(){
+            changePhoto(photos);
+           }, 2000);
          }
 
-         setTimeout(changePhoto, 2000);
+         setTimeout(function(){
+          changePhoto(photos);
+         }, 2000);
 
          
        }
