@@ -9,23 +9,6 @@
         body.connected #logout { display: block; }
         body.not_connected #login { display: block; }
         body.not_connected #logout { display: none; }
-
-        * { padding: 0; margin: 0; }
-
-        html, body { height: 100%; }
-
-        img{
-            position:absolute;
-            top:0;
-            bottom:0;
-            left:0;
-            right:0;
-            margin:auto;
-
-        }
-        #login-stuff{
-            display:none;
-        }
     </style>
     <script>
         window.fbAsyncInit = function() {
@@ -61,8 +44,8 @@
             }, {scope:'user_photos,friends_photos'});     
         }
 
-        Array.prototype.shuffle = function () {
-            for (var i = this.length - 1; i > 0; i--) {
+        Array.prototype.shuffle = function() {
+            for(var i = this.length - 1; i > 0; i--) {
                 var j = Math.floor(Math.random() * (i + 1));
                 var tmp = this[i];
                 this[i] = this[j];
@@ -85,23 +68,7 @@
                         var photo = photos[i];
                         urls.push(photo.source);
                     }
-
-                    function randomNumber(low, high){
-                        var r = Math.random();
-                        var rand = low + Math.floor(r * (high - low + 1));
-                        return rand;
-                    }
-
-                    function changePhoto(photos){
-                        var photo = photos[randomNumber(0, photos.length-1)];
-                        var markup = '<img src="' + photo.source + '"> ';
-                        document.getElementById('photo').innerHTML = markup;
-                        setTimeout(function(){
-                            changePhoto(photos);
-                        }, 2000);
-                    }
-                    // changePhoto(photos);
-                    $.backstretch(urls, {duration: 2000, fade: 500});
+                    $.backstretch(urls.shuffle(), {duration: 2000, fade: 500});
                 }
             });
         }
@@ -120,20 +87,12 @@
         content="initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
 </head>
 <body>
-
-    <div id="login-stuff">
-    	<div id="fb-root"></div>
-        <div id="login">
-            <p><button onClick="loginUser();">Login</button></p>
-        </div>
-        <div id="logout">
-            <p><button  onClick="FB.logout();">Logout</button></p>
-        </div>
-        <a href="#" onclick="getUserPhotos();">Get photos</a><br>
+	<div id="fb-root"></div>
+    <div id="login">
+        <p><button onClick="loginUser();">Login</button></p>
     </div>
-
-    
-    <!-- <div id="photo"><img src="https://sphotos-b.xx.fbcdn.net/hphotos-snc6/s720x720/8162_10200190382976324_1986183353_n.jpg"></div> -->
-
+    <div id="logout">
+        <p><button  onClick="FB.logout();">Logout</button></p>
+    </div>
 </body>
 </html>
