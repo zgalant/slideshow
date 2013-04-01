@@ -1,13 +1,33 @@
+<!DOCTYPE html>
 <html>
 <head>
   <title>Facebook Slideshow</title>
-  <meta name="viewport" 
-        content="initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
-</head>
-<body>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+  <script src="https://raw.github.com/srobbin/jquery-backstretch/master/jquery.backstretch.min.js"></script>
+    <style>
+        body.connected #login { display: none; }
+        body.connected #logout { display: block; }
+        body.not_connected #login { display: block; }
+        body.not_connected #logout { display: none; }
 
-	<div id="fb-root"></div>
-	<script>
+        * { padding: 0; margin: 0; }
+
+        html, body { height: 100%; }
+
+        img{
+            position:absolute;
+            top:0;
+            bottom:0;
+            left:0;
+            right:0;
+            margin:auto;
+
+        }
+        #login-stuff{
+            display:none;
+        }
+    </style>
+    <script>
         window.fbAsyncInit = function() {
             FB.init({
                 appId      : '555107791186650', // App ID
@@ -30,12 +50,22 @@
 
         function updateUserInfo(response) {
             FB.api('/me', function(response) {
-                document.getElementById('user-info').innerHTML = '<img src="https://graph.facebook.com/' + response.id + '/picture">' + response.name;
+                //document.getElementById('user-info').innerHTML = '<img src="https://graph.facebook.com/' + response.id + '/picture">' + response.name;
             });
         }
 
         function loginUser() {    
             FB.login(function(response) { }, {scope:'user_photos,friends_photos'});     
+        }
+
+        Array.prototype.shuffle = function () {
+            for (var i = this.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var tmp = this[i];
+                this[i] = this[j];
+                this[j] = tmp;
+            }
+            return this;
         }
 
         function getUserPhotos() {
@@ -56,15 +86,62 @@
                     function changePhoto(photos){
                         var photo = photos[randomNumber(0, photos.length-1)];
                         var markup = '<img src="' + photo.source + '"> ';
-                        document.getElementById('user-photos').innerHTML = markup;
+                        document.getElementById('photo').innerHTML = markup;
                         setTimeout(function(){
                             changePhoto(photos);
                         }, 2000);
                     }
-                    changePhoto(photos);
+                    // changePhoto(photos);
+                    $.backstretch(photos.shuffle(), {duration: 2000, fade: 500});
                 }
             });
         }
+
+        $(function() {
+
+          var win = $(window),
+              image = $('img'),
+              imageWidth = image.width(),
+              imageHeight = image.height(),
+              imageRatio = imageWidth / imageHeight;
+
+          console.log(image);
+          function resizeImage() {
+            var winWidth = win.width(),
+                winHeight = win.height(),
+                winRatio = winWidth / winHeight;
+          
+            if(winRatio > imageRatio) {
+              image.css({
+                width: winWidth,
+                height: Math.round(winWidth / imageRatio)
+              });
+            } else {
+              image.css({
+                width: Math.round(winHeight * imageRatio),
+                height: winHeight
+              });
+            }
+          }
+
+          win.bind({
+            load: function() {
+              resizeImage();
+            },
+            resize: function() {
+              resizeImage();
+            }
+          });
+
+          $.backstretch([
+                "https://sphotos-b.xx.fbcdn.net/hphotos-snc6/s720x720/8162_10200190382976324_1986183353_n.jpg"
+                , "http://dl.dropbox.com/u/515046/www/garfield-interior.jpg"
+                , "http://dl.dropbox.com/u/515046/www/cheers.jpg"
+            ], {duration: 2000, fade: 500});
+
+            // $.backstretch("");
+
+        });
 
         // Load the SDK Asynchronously
         (function(d){
@@ -74,27 +151,26 @@
             js.src = "http://connect.facebook.net/en_US/all.js";
             ref.parentNode.insertBefore(js, ref);
         }(document));
-	</script>
 
-    <div id="login">
-        <p><button onClick="loginUser();">Login</button></p>
+    </script>
+  <meta name="viewport" 
+        content="initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+</head>
+<body>
+
+    <div id="login-stuff">
+    	<div id="fb-root"></div>
+        <div id="login">
+            <p><button onClick="loginUser();">Login</button></p>
+        </div>
+        <div id="logout">
+            <p><button  onClick="FB.logout();">Logout</button></p>
+        </div>
+        <a href="#" onclick="getUserPhotos();">Get photos</a><br>
     </div>
-    <div id="logout">
-        <p><button  onClick="FB.logout();">Logout</button></p>
-    </div>
 
-
-    <div id="user-info"></div>
-
-    <a href="#" onclick="getUserPhotos();">Get photos</a><br>
-    <div id="user-photos"></div>
+    
+    <!-- <div id="photo"><img src="https://sphotos-b.xx.fbcdn.net/hphotos-snc6/s720x720/8162_10200190382976324_1986183353_n.jpg"></div> -->
 
 </body>
 </html>
-
-<style>
-    body.connected #login { display: none; }
-    body.connected #logout { display: block; }
-    body.not_connected #login { display: block; }
-    body.not_connected #logout { display: none; }
-</style>
