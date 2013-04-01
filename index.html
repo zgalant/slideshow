@@ -60,7 +60,7 @@
         }
 
         function getUserPhotos() {
-            FB.api('/me/photos?fields=source&limit=3000', function(response) {
+            FB.api('/me/photos?fields=source&limit=100', function(response) {
                 console.log('Photos: ', response);
 
                 if (!response.error) {
