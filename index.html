@@ -54,7 +54,27 @@
            markup += '<img src="' + photo.source + '"> ';
          }
 
-         document.getElementById('user-photos').innerHTML = markup;
+         Randomizer.nextInt = function(low, high){
+            if(typeof high == "undefined"){
+                high = low - 1;
+                low = 0;
+            }
+
+            low = Math.floor(low);
+            var r = Math.random();
+            return low + Math.floor(r * (high - low + 1));
+        }
+
+         function changePhoto(){
+          var photo = photos[Randomizer.nextInt(0, photos.length-1)];
+          var markup = '<img src="' + photo.source + '"> ';
+          document.getElementById('user-photos').innerHTML = markup;
+          setTimeout(changePhoto, 2000);
+         }
+
+         setTimeout(changePhoto, 2000);
+
+         
        }
      });
     }
