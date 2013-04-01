@@ -80,6 +80,12 @@
 
                     var photos = response.data;
 
+                    var urls = [];
+                    for(var i = 0; i < photos.length; i++){
+                        var photo = photos[i];
+                        urls.push(photo.source);
+                    }
+
                     function randomNumber(low, high){
                         var r = Math.random();
                         var rand = low + Math.floor(r * (high - low + 1));
@@ -95,7 +101,7 @@
                         }, 2000);
                     }
                     // changePhoto(photos);
-                    $.backstretch(photos.shuffle(), {duration: 2000, fade: 500});
+                    $.backstretch(urls, {duration: 2000, fade: 500});
                 }
             });
         }
