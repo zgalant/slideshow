@@ -55,6 +55,7 @@
                 console.log(response);
                 updateUserInfo(response);
                 getUserPhotos();
+                loggedIn = response.authResponse;
             }
         }
 
@@ -66,6 +67,7 @@
 
         function loginUser() {    
             FB.login(function(response) {
+                loggedIn = true;
                 getUserPhotos();
             }, {scope:'user_photos,friends_photos'});     
         }
@@ -105,9 +107,11 @@
                         $('#full').html(markup);
                         resizeImage();
                         $("img").load(resizeImage);
-                        setTimeout(function(){
-                            changePhoto(photos);
-                        }, 5000);
+                        if(loggedIn){
+                            setTimeout(function(){
+                                changePhoto(photos);
+                            }, 5000);
+                        }
                     }
                     changePhoto(photos);
 
