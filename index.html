@@ -89,7 +89,6 @@
                     }
 
                     function changePhoto(photos){
-                        console.log(photos);
                         var r = Math.random();
                         var low = 0;
                         var high = photos.length - 1;
@@ -118,7 +117,7 @@
                 imageHeight = image.height(),
                 imageRatio = imageWidth / imageHeight;
             
-            console.log("resize");
+            console.log(imageWidth + "," + imageHeight);
             var winWidth = win.width(),
             winHeight = win.height(),
             winRatio = winWidth / winHeight;
