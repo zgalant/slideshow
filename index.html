@@ -98,9 +98,10 @@
                         var markup = '<img src="' + photo.source + '"> ';
                         $('#full').html(markup);
                         resizeImage();
+                        $("img").load(resizeImage);
                         setTimeout(function(){
                             changePhoto(photos);
-                        }, 6000);
+                        }, 5000);
                     }
                     changePhoto(photos);
 
