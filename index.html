@@ -55,7 +55,7 @@
         }
 
         function getUserPhotos() {
-            FB.api('/me/photos?fields=source?limit=100', function(response) {
+            FB.api('/me/photos?fields=source&limit=100', function(response) {
                 console.log('Got friends: ', response);
 
                 if (!response.error) {
