@@ -23,6 +23,10 @@
         #full {
             height: 100%;
             overflow: hidden;
+            position: absolute;
+            top:0px;
+            left:0px;
+            /*z-index:100;*/
         }
     </style>
     <script>
@@ -96,7 +100,7 @@
                         resizeImage();
                         setTimeout(function(){
                             changePhoto(photos);
-                        }, 2000);
+                        }, 6000);
                     }
                     changePhoto(photos);
 
@@ -178,7 +182,6 @@
     </div>
 
     <div id="full">
-        <img src="https://sphotos-b.xx.fbcdn.net/hphotos-ash4/s720x720/283746_3495507276888_376276361_n.jpg" />
     </div>
 </body>
 </html>
