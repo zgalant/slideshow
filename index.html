@@ -1,0 +1,70 @@
+<html>
+<head>
+  <title>Facebook Slideshow</title>
+  <meta name="viewport" 
+        content="initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+</head>
+<body>
+
+	<div id="fb-root"></div>
+	<script>
+	  window.fbAsyncInit = function() {
+	    FB.init({
+	      appId      : '555107791186650', // App ID
+	      // channelUrl : 'channel.html', // Channel File
+	      status     : true, // check login status
+	      cookie     : true, // enable cookies to allow the server to access the session
+	      xfbml      : true  // parse XFBML
+	    });
+
+	    FB.Event.subscribe('auth.statusChange', handleStatusChange);
+	  };
+
+    function handleStatusChange(response) {
+      document.body.className = response.authResponse ? 'connected' : 'not_connected';
+      if (response.authResponse) {
+        console.log(response);
+
+        updateUserInfo(response);
+      }
+    }
+
+    function updateUserInfo(response) {
+     FB.api('/me', function(response) {
+       document.getElementById('user-info').innerHTML = '<img src="https://graph.facebook.com/' + response.id + '/picture">' + response.name;
+     });
+   }
+
+   function loginUser() {    
+     FB.login(function(response) { }, {scope:'email'});     
+   }
+
+	  // Load the SDK Asynchronously
+	  (function(d){
+	     var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+	     if (d.getElementById(id)) {return;}
+	     js = d.createElement('script'); js.id = id; js.async = true;
+	     js.src = "http://connect.facebook.net/en_US/all.js";
+	     ref.parentNode.insertBefore(js, ref);
+	   }(document));
+	</script>
+
+   <div id="login">
+     <p><button onClick="loginUser();">Login</button></p>
+   </div>
+   <div id="logout">
+     <p><button  onClick="FB.logout();">Logout</button></p>
+   </div>
+
+
+   <div id="user-info"></div>
+
+</body>
+</html>
+
+  <style>
+    body.connected #login { display: none; }
+    body.connected #logout { display: block; }
+    body.not_connected #login { display: block; }
+    body.not_connected #logout { display: none; }
+  </style>
