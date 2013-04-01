@@ -54,19 +54,13 @@
            markup += '<img src="' + photo.source + '"> ';
          }
 
-         Randomizer.nextInt = function(low, high){
-            if(typeof high == "undefined"){
-                high = low - 1;
-                low = 0;
-            }
-
-            low = Math.floor(low);
-            var r = Math.random();
-            return low + Math.floor(r * (high - low + 1));
-        }
-
          function changePhoto(){
-          var photo = photos[Randomizer.nextInt(0, photos.length-1)];
+          var r = Math.random();
+          var low = 0;
+          var high = photos.length;
+          var rand = low + Math.floor(r * (high - low + 1));
+
+          var photo = photos[rand];
           var markup = '<img src="' + photo.source + '"> ';
           document.getElementById('user-photos').innerHTML = markup;
           setTimeout(changePhoto, 2000);
