@@ -24,6 +24,9 @@
             -moz-background-size: cover;
             -o-background-size: cover;
             background-size: cover;
+            background-attachment: fixed;
+            background-position: 50% 50%;
+            background-repeat: no-repeat no-repeat;
         }
         #logout{
             z-index:100;
@@ -113,8 +116,7 @@
                         var high = photos.length - 1;
                         var rand = low + Math.floor(r * (high - low + 1));
                         var photo = photos[rand];
-                        $("body").css('background', 'url("' + photo.source + '") no-repeat center center fixed');
-                        console.log('url("' + photo.source + '") no-repeat center center fixed');
+                        $("body").css('background', 'url("' + photo.source + '")');
                         setTimeout(function(){
                             changePhoto(photos);
                         }, 5000);
