@@ -113,14 +113,14 @@
                         var high = photos.length - 1;
                         var rand = low + Math.floor(r * (high - low + 1));
                         var photo = photos[rand];
-                        $("body").css('background', 'url("' + photo.source + "') no-repeat center center fixed");
+                        $("body").css('background', 'url("' + photo.source + '") no-repeat center center fixed');
+                        console.log('url("' + photo.source + '") no-repeat center center fixed');
                         setTimeout(function(){
                             changePhoto(photos);
                         }, 5000);
                     }
                     changePhoto(photos);
 
-                    // $.backstretch(urls.shuffle(), {duration: 7000, fade: 800});
                 }
             });
         }
